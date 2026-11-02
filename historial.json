@@ -1,0 +1,12 @@
+[
+ {
+  "nombre": "noche_20261102_150813",
+  "nivel": "noche",
+  "fecha": "2026-11-02T15:08:13",
+  "base": "276.363.8596",
+  "test": "277.363.8612",
+  "estado": "FAIL",
+  "pruebas": 4,
+  "pruebas_con_problemas": 1
+ }
+]
