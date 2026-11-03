@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Validación SimSEE 277.363.8612</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Informe de una columna (~68ch): resumen arriba, detalle abajo; tablas y gráficos con scroll propio */
+:root {
+  --bg: #f6f7f8; --surface: #ffffff; --fg: #1b2129; --muted: #5a6573; --line: #dde1e6;
+  --accent: #1d5e8c; --accent-soft: #e5eef5;
+  --pass: #1f7a4d; --pass-soft: #e3f2ea; --fail: #b3362b; --fail-soft: #f8e6e3;
+  --warn: #9a6a00; --warn-soft: #f7efd9;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12161b; --surface: #1a2027; --fg: #e4e8ec; --muted: #9aa5b1; --line: #2c343d;
+    --accent: #7fb6e0; --accent-soft: #1d2a36; --pass: #6fcf9a; --pass-soft: #17291f;
+    --fail: #f08a7e; --fail-soft: #33201e; --warn: #e2b44f; --warn-soft: #2e2716;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 17px; line-height: 1.55; }
+.wrap {
+  max-width: 56rem; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 2.5rem 4rem; display: flex; flex-direction: column; gap: 3rem;
+}
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.2; }
+h1 { font-size: clamp(1.8rem, 4.5vw, 2.5rem); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 1.45rem; font-weight: 600; }
+h3 { font-size: 1.08rem; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+section { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+.eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+.small { font-size: 0.9rem; }
+code, .mono { font-family: var(--font-mono); font-size: 0.88em; overflow-wrap: anywhere; }
+a { color: var(--accent); }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+header { display: flex; flex-direction: column; gap: 0.9rem; }
+.versions { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; font-family: var(--font-mono); font-size: 0.9rem; color: var(--muted); }
+.versions b { color: var(--fg); font-weight: 500; }
+
+.verdict { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--pass); border-radius: 10px; padding: 1.3rem 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; }
+.verdict.FAIL, .verdict.ERROR { border-left-color: var(--fail); }
+.verdict.WARN { border-left-color: var(--warn); }
+.verdict .big { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; line-height: 1.3; text-wrap: balance; }
+.verdict ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.35rem; max-width: 68ch; }
+
+.pill { display: inline-flex; align-items: center; font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em; padding: 0.12rem 0.55rem; border-radius: 999px; white-space: nowrap; }
+.pill.PASS, .pill.OK { background: var(--pass-soft); color: var(--pass); }
+.pill.FAIL, .pill.ERROR { background: var(--fail-soft); color: var(--fail); }
+.pill.WARN { background: var(--warn-soft); color: var(--warn); }
+
+.tests { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 1rem; }
+.test { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; }
+.test.FAIL, .test.ERROR { border-color: var(--fail); }
+.test.WARN { border-color: var(--warn); }
+.test .top { display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; }
+.test .q { font-size: 0.95rem; font-family: var(--font-body); font-weight: 400; }
+.ab { display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.7rem; font-size: 0.9rem; margin: 0; }
+.ab dt { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); padding-top: 0.2rem; }
+.ab dd { margin: 0; min-width: 0; }
+.bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: var(--line); }
+.bar span { display: block; height: 100%; }
+.bar .ident { background: var(--pass); }
+.bar .tol { background: color-mix(in srgb, var(--pass) 55%, var(--surface)); }
+.bar .warn { background: var(--warn); min-width: 3px; }
+.bar .fail { background: var(--fail); min-width: 3px; }
+.count { font-variant-numeric: tabular-nums; font-size: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.2rem 0.9rem; }
+
+.item { display: flex; flex-direction: column; gap: 1rem; border-left: 3px solid var(--fail); padding-left: 1.2rem; }
+.item.WARN { border-left-color: var(--warn); }
+.graf-card { display: flex; flex-direction: column; gap: 0.5rem; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.1rem; min-width: 0; }
+.graf-card .head { display: flex; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; align-items: baseline; }
+.graf-wrap { overflow-x: auto; }
+svg.graf { width: 100%; min-width: 30rem; height: auto; display: block; }
+svg.graf .grid { stroke: var(--line); stroke-width: 1; }
+svg.graf .cero { stroke: var(--muted); stroke-width: 1; }
+svg.graf .banda { fill: var(--accent); fill-opacity: 0.22; stroke: none; }
+svg.graf .p50 { fill: none; stroke: var(--accent); stroke-width: 2; }
+svg.graf .media { fill: none; stroke: var(--fg); stroke-width: 1.2; stroke-dasharray: 5 4; }
+svg.graf .ext { fill: none; stroke: var(--fail); stroke-width: 1; stroke-opacity: 0.8; }
+svg.graf text { fill: var(--muted); font-family: var(--font-mono); font-size: 11px; }
+svg.graf .ty { text-anchor: end; }
+svg.graf .tx { text-anchor: middle; }
+.legend { display: flex; flex-wrap: wrap; gap: 0.3rem 1.1rem; font-size: 0.82rem; color: var(--muted); }
+.legend i { display: inline-block; width: 18px; height: 10px; vertical-align: 0; margin-right: 0.35rem; }
+.lg-banda { background: var(--accent); opacity: 0.35; }
+.lg-p50 { border-top: 2px solid var(--accent); height: 0 !important; vertical-align: 3px !important; }
+.lg-media { border-top: 1.5px dashed var(--fg); height: 0 !important; vertical-align: 3px !important; }
+.lg-ext { border-top: 1px solid var(--fail); height: 0 !important; vertical-align: 3px !important; }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { text-align: left; padding: 0.55rem 0.85rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+th { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+td.num, th.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+td.num { font-family: var(--font-mono); font-size: 0.85rem; }
+td.over { color: var(--fail); font-weight: 600; }
+.sym { font-family: var(--font-mono); font-size: 0.82rem; color: var(--accent); white-space: nowrap; }
+.none { color: var(--warn); }
+
+.steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: flex; flex-direction: column; gap: 1rem; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 2rem 1fr; gap: 0.75rem; }
+.steps li::before { content: counter(s); font-family: var(--font-display); font-weight: 600; width: 1.75rem; height: 1.75rem; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 0.9rem; }
+.steps li > div { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+.formula { font-family: var(--font-mono); font-size: 0.9rem; background: var(--accent-soft); padding: 0.55rem 0.8rem; border-radius: 6px; width: fit-content; max-width: 100%; overflow-x: auto; }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 0.8rem; }
+.rule { border: 1px solid var(--line); border-radius: 8px; padding: 0.9rem 1rem; background: var(--surface); display: flex; flex-direction: column; gap: 0.4rem; align-items: flex-start; font-size: 0.93rem; }
+.cov { display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap; }
+.cov .bar { width: 4.5rem; }
+.cov .bar .act { background: var(--accent); }
+dl.gloss { display: grid; grid-template-columns: minmax(7rem, max-content) 1fr; gap: 0.6rem 1.2rem; margin: 0; }
+dl.gloss dt { font-weight: 600; }
+dl.gloss dd { margin: 0; max-width: 62ch; }
+@media (max-width: 34rem) { dl.gloss { grid-template-columns: 1fr; gap: 0.15rem; } dl.gloss dd { margin-bottom: 0.6rem; } }
+details { border-top: 1px solid var(--line); padding-top: 1rem; }
+summary { cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; }
+details[open] summary { margin-bottom: 1rem; }
+details.inner { border: 0; padding: 0; }
+details.inner summary { font-size: 0.95rem; font-family: var(--font-body); color: var(--accent); }
+footer { font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 1rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Validación automática de SimSEE · nivel «noche»</span>
+  <h1>Validación de SimSEE 277.363.8612</h1>
+  <div class="versions">
+    <span>versión nueva <b>277.363.8612</b></span>
+    <span>comparada contra <b>269.359.8448</b></span>
+<span>ejecutada <b>3 nov 2026, 20:48</b></span>  </div>
+</header>
+
+<div class="verdict FAIL">
+  <div class="big">1 de 4 pruebas tienen resultados fuera de tolerancia.</div>
+  <ul>
+    <li>2 636 comparaciones de variables en 4 pruebas; 2 635 dieron idénticas bit a bit.</li>
+    <li><a href="#p1-version_sim">version_sim · CP_Verano</a>:
+        cambió el conjunto de variables publicadas.
+</li>
+    <li><a href="#p2-version_opt_sim">version_opt_sim · SalaTest</a>:
+        cambió el conjunto de variables publicadas.
+</li>
+    <li><a href="#p3-hilos_sim">hilos_sim · CP_Verano</a>:
+        1 variable con FAIL (<code>ImpArg_B4.cv_P1</code>).
+</li>
+    <li>Reglas físicas: ninguna violada en las corridas (hasta 1 276 controles por corrida).</li>
+  </ul>
+</div>
+
+<section id="pruebas">
+  <h2>Qué se probó</h2>
+  <p>Cada prueba ejecuta la misma sala dos veces cambiando una sola cosa y compara todas las variables que publican los actores, en cada paso de tiempo y en cada crónica. Si los resultados cambian, la causa es lo único que se modificó entre las dos corridas.</p>
+  <div class="tests">
+    <article class="test WARN">
+      <div class="top">
+        <span class="eyebrow">CP_Verano · version_sim</span>
+        <span class="pill WARN">WARN</span>
+      </div>
+<h3 class="q">Misma sala, misma CF y misma semilla con la versión base y la versión test. Diferencias = cambios en el simulador.</h3>      <dl class="ab">
+        <dt>REF.</dt><dd>269.359.8448 · icf · hilos automático</dd>
+        <dt>NUEVA</dt><dd>277.363.8612 · icf · hilos automático</dd>
+<dt>IGUAL</dt><dd class="muted">misma CF · semilla 31 · 1 000 crónicas × 168 pasos</dd>      </dl>
+      <div class="bar" role="img" aria-label="1176 idénticas, 0 dentro de tolerancia, 0 WARN, 0 FAIL o ERROR de 1176">
+        <span class="ident" style="width:100.0%"></span>
+        <span class="tol" style="width:0.0%"></span>
+      </div>
+      <div class="count">
+        <span><strong>1 176</strong> de 1 176 idénticas</span>
+      </div>
+    </article>
+    <article class="test WARN">
+      <div class="top">
+        <span class="eyebrow">SalaTest · version_opt_sim</span>
+        <span class="pill WARN">WARN</span>
+      </div>
+<h3 class="q">Cada versión optimiza y simula con su propia CF. Diferencias = optimizador + simulador.</h3>      <dl class="ab">
+        <dt>REF.</dt><dd>269.359.8448 · clásico · hilos automático</dd>
+        <dt>NUEVA</dt><dd>277.363.8612 · clásico · hilos automático</dd>
+<dt>IGUAL</dt><dd class="muted">cada corrida optimiza su propia CF · semilla 31 · 100 crónicas × 168 pasos</dd>      </dl>
+      <div class="bar" role="img" aria-label="142 idénticas, 0 dentro de tolerancia, 0 WARN, 0 FAIL o ERROR de 142">
+        <span class="ident" style="width:100.0%"></span>
+        <span class="tol" style="width:0.0%"></span>
+      </div>
+      <div class="count">
+        <span><strong>142</strong> de 142 idénticas</span>
+      </div>
+    </article>
+    <article class="test FAIL">
+      <div class="top">
+        <span class="eyebrow">CP_Verano · hilos_sim</span>
+        <span class="pill FAIL">FAIL</span>
+      </div>
+<h3 class="q">Simulación monohilo vs multihilo con la versión test, misma CF y semilla. Se espera igualdad exacta.</h3>      <dl class="ab">
+        <dt>REF.</dt><dd>277.363.8612 · icf · 1 hilo</dd>
+        <dt>NUEVA</dt><dd>277.363.8612 · icf · 8 hilos</dd>
+<dt>IGUAL</dt><dd class="muted">misma CF · semilla 31 · 1 000 crónicas × 168 pasos</dd>      </dl>
+      <div class="bar" role="img" aria-label="1175 idénticas, 0 dentro de tolerancia, 0 WARN, 1 FAIL o ERROR de 1176">
+        <span class="ident" style="width:99.91496598639456%"></span>
+        <span class="tol" style="width:0.0%"></span>
+<span class="fail" style="width:0.08503401360544217%"></span>      </div>
+      <div class="count">
+        <span><strong>1 175</strong> de 1 176 idénticas</span>
+<span style="color:var(--fail)">1 FAIL</span>      </div>
+    </article>
+    <article class="test PASS">
+      <div class="top">
+        <span class="eyebrow">SalaTest · modos</span>
+        <span class="pill PASS">PASS</span>
+      </div>
+<h3 class="q">Optimización y simulación con el solver clásico vs icf (versión test).</h3>      <dl class="ab">
+        <dt>REF.</dt><dd>277.363.8612 · clásico · hilos automático</dd>
+        <dt>NUEVA</dt><dd>277.363.8612 · icf · hilos automático</dd>
+<dt>IGUAL</dt><dd class="muted">cada corrida optimiza su propia CF · semilla 31 · 100 crónicas × 168 pasos</dd>      </dl>
+      <div class="bar" role="img" aria-label="142 idénticas, 0 dentro de tolerancia, 0 WARN, 0 FAIL o ERROR de 142">
+        <span class="ident" style="width:100.0%"></span>
+        <span class="tol" style="width:0.0%"></span>
+      </div>
+      <div class="count">
+        <span><strong>142</strong> de 142 idénticas</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="resultados">
+  <h2>Resultados fuera de lo esperado</h2>
+  <p>Para cada variable que no pasó se grafica, paso a paso, cómo se distribuye entre las crónicas la diferencia <em>versión nueva − referencia</em>. La banda va del percentil 5 al 95, la línea llena es la mediana (percentil 50), la punteada es la media y las líneas finas son el mínimo y el máximo entre crónicas. Si las dos corridas coincidieran, todo quedaría sobre el cero.</p>
+  <div class="item WARN" id="p1-version_sim">
+    <div>
+      <span class="eyebrow">CP_Verano · version_sim</span>
+      <h3 style="margin-top:0.3rem">269.359.8448 · icf · hilos automático contra 277.363.8612 · icf · hilos automático</h3>
+    </div>
+
+
+
+
+    <p>Variables publicadas solo por la versión nueva: ninguna.<br>
+       Variables publicadas solo por la referencia: Baygorria.Q_P1, Bonete.Q_P1, CC540.Q_P1, CC540_Gas.Q_P1, CTR.Q_P1, Combinado.Q_P1, GenDIS.Q_P1, Motores.Q_P1, PTA_78.Q_P1, PTI_GO.Q_P1, PTI_Gas.Q_P1, Palmar.Q_P1, SG.Q_P1, UPM.Q_P1, UPM2.Q_P1, estabilizador_1MW.Q_P1.</p>
+
+  </div>
+  <div class="item WARN" id="p2-version_opt_sim">
+    <div>
+      <span class="eyebrow">SalaTest · version_opt_sim</span>
+      <h3 style="margin-top:0.3rem">269.359.8448 · clásico · hilos automático contra 277.363.8612 · clásico · hilos automático</h3>
+    </div>
+
+
+
+
+    <p>Variables publicadas solo por la versión nueva: ninguna.<br>
+       Variables publicadas solo por la referencia: G1.Q_P1, G1_basico.Q_P1, G2.Q_P1, G2_basico.Q_P1.</p>
+
+  </div>
+  <div class="item FAIL" id="p3-hilos_sim">
+    <div>
+      <span class="eyebrow">CP_Verano · hilos_sim</span>
+      <h3 style="margin-top:0.3rem">277.363.8612 · icf · 1 hilo contra 277.363.8612 · icf · 8 hilos</h3>
+    </div>
+
+    <div class="graf-card">
+      <div class="head">
+        <h3><code>ImpArg_B4.cv_P1</code> <span class="muted small">[USD/MWh]</span></h3>
+        <span><span class="pill FAIL" title="criterio odt_v1">tolerancia: FAIL</span> <span class="pill FAIL" title="criterio identico">idéntico: FAIL</span> </span>
+      </div>
+      <div class="graf-wrap"><svg viewBox="0 0 720 260" class="graf" role="img" aria-label="Percentiles por paso de la diferencia entre versiones"><line class="grid" x1="72" x2="706" y1="202.6" y2="202.6"/><text class="ty" x="66" y="206.6">-150</text><line class="grid" x1="72" x2="706" y1="142.9" y2="142.9"/><text class="ty" x="66" y="146.9">-100</text><line class="grid" x1="72" x2="706" y1="83.2" y2="83.2"/><text class="ty" x="66" y="87.2">-50,0</text><line class="grid" x1="72" x2="706" y1="23.5" y2="23.5"/><text class="ty" x="66" y="27.5">0</text><text class="tx" x="72.0" y="242">0</text><text class="tx" x="261.8" y="242">50</text><text class="tx" x="451.6" y="242">100</text><text class="tx" x="641.5" y="242">150</text><text class="tx" x="389" y="258">paso</text><line class="cero" x1="72" x2="706" y1="23.5" y2="23.5"/><polygon class="banda" points="72.0,23.5 75.8,23.5 79.6,23.5 83.4,23.5 87.2,23.5 91.0,23.5 94.8,23.5 98.6,23.5 102.4,23.5 106.2,23.5 110.0,23.5 113.8,23.5 117.6,23.5 121.4,23.5 125.1,23.5 128.9,23.5 132.7,23.5 136.5,23.5 140.3,23.5 144.1,23.5 147.9,23.5 151.7,23.5 155.5,23.5 159.3,23.5 163.1,23.5 166.9,23.5 170.7,23.5 174.5,23.5 178.3,23.5 182.1,23.5 185.9,23.5 189.7,23.5 193.5,23.5 197.3,23.5 201.1,23.5 204.9,23.5 208.7,23.5 212.5,23.5 216.3,23.5 220.1,23.5 223.9,23.5 227.7,23.5 231.4,23.5 235.2,23.5 239.0,23.5 242.8,23.5 246.6,23.5 250.4,23.5 254.2,23.5 258.0,23.5 261.8,23.5 265.6,23.5 269.4,23.5 273.2,23.5 277.0,23.5 280.8,23.5 284.6,23.5 288.4,23.5 292.2,23.5 296.0,23.5 299.8,23.5 303.6,23.5 307.4,23.5 311.2,23.5 315.0,23.5 318.8,23.5 322.6,23.5 326.4,23.5 330.2,23.5 334.0,23.5 337.7,23.5 341.5,23.5 345.3,23.5 349.1,23.5 352.9,23.5 356.7,23.5 360.5,23.5 364.3,23.5 368.1,23.5 371.9,23.5 375.7,23.5 379.5,23.5 383.3,23.5 387.1,23.5 390.9,23.5 394.7,23.5 398.5,23.5 402.3,23.5 406.1,23.5 409.9,23.5 413.7,23.5 417.5,23.5 421.3,23.5 425.1,23.5 428.9,23.5 432.7,23.5 436.5,23.5 440.3,23.5 444.0,23.5 447.8,23.5 451.6,23.5 455.4,23.5 459.2,23.5 463.0,23.5 466.8,23.5 470.6,23.5 474.4,23.5 478.2,23.5 482.0,23.5 485.8,23.5 489.6,23.5 493.4,23.5 497.2,23.5 501.0,23.5 504.8,23.5 508.6,23.5 512.4,23.5 516.2,23.5 520.0,23.5 523.8,23.5 527.6,23.5 531.4,23.5 535.2,23.5 539.0,23.5 542.8,23.5 546.6,23.5 550.3,23.5 554.1,23.5 557.9,23.5 561.7,23.5 565.5,23.5 569.3,23.5 573.1,23.5 576.9,23.5 580.7,23.5 584.5,23.5 588.3,23.5 592.1,23.5 595.9,23.5 599.7,23.5 603.5,23.5 607.3,23.5 611.1,23.5 614.9,23.5 618.7,23.5 622.5,23.5 626.3,23.5 630.1,23.5 633.9,23.5 637.7,23.5 641.5,23.5 645.3,23.5 649.1,23.5 652.9,23.5 656.6,23.5 660.4,23.5 664.2,23.5 668.0,23.5 671.8,23.5 675.6,23.5 679.4,23.5 683.2,23.5 687.0,23.5 690.8,23.5 694.6,23.5 698.4,23.5 702.2,23.5 706.0,23.5 706.0,23.5 702.2,23.5 698.4,23.5 694.6,23.5 690.8,23.5 687.0,23.5 683.2,23.5 679.4,23.5 675.6,23.5 671.8,23.5 668.0,23.5 664.2,23.5 660.4,23.5 656.6,23.5 652.9,23.5 649.1,23.5 645.3,23.5 641.5,23.5 637.7,23.5 633.9,23.5 630.1,23.5 626.3,23.5 622.5,23.5 618.7,23.5 614.9,23.5 611.1,23.5 607.3,23.5 603.5,23.5 599.7,23.5 595.9,23.5 592.1,23.5 588.3,23.5 584.5,23.5 580.7,23.5 576.9,23.5 573.1,23.5 569.3,23.5 565.5,23.5 561.7,23.5 557.9,23.5 554.1,23.5 550.3,23.5 546.6,23.5 542.8,23.5 539.0,23.5 535.2,23.5 531.4,23.5 527.6,23.5 523.8,23.5 520.0,23.5 516.2,23.5 512.4,23.5 508.6,23.5 504.8,23.5 501.0,23.5 497.2,23.5 493.4,23.5 489.6,23.5 485.8,23.5 482.0,23.5 478.2,23.5 474.4,23.5 470.6,23.5 466.8,23.5 463.0,23.5 459.2,23.5 455.4,23.5 451.6,23.5 447.8,23.5 444.0,23.5 440.3,23.5 436.5,23.5 432.7,23.5 428.9,23.5 425.1,23.5 421.3,23.5 417.5,23.5 413.7,23.5 409.9,23.5 406.1,23.5 402.3,23.5 398.5,23.5 394.7,23.5 390.9,23.5 387.1,23.5 383.3,23.5 379.5,23.5 375.7,23.5 371.9,23.5 368.1,23.5 364.3,23.5 360.5,23.5 356.7,23.5 352.9,23.5 349.1,23.5 345.3,23.5 341.5,23.5 337.7,23.5 334.0,23.5 330.2,23.5 326.4,23.5 322.6,23.5 318.8,23.5 315.0,23.5 311.2,23.5 307.4,23.5 303.6,23.5 299.8,23.5 296.0,23.5 292.2,23.5 288.4,23.5 284.6,23.5 280.8,23.5 277.0,23.5 273.2,23.5 269.4,23.5 265.6,23.5 261.8,23.5 258.0,23.5 254.2,23.5 250.4,23.5 246.6,23.5 242.8,23.5 239.0,23.5 235.2,23.5 231.4,23.5 227.7,23.5 223.9,23.5 220.1,23.5 216.3,23.5 212.5,23.5 208.7,23.5 204.9,23.5 201.1,23.5 197.3,23.5 193.5,23.5 189.7,23.5 185.9,23.5 182.1,23.5 178.3,23.5 174.5,23.5 170.7,23.5 166.9,23.5 163.1,23.5 159.3,23.5 155.5,23.5 151.7,23.5 147.9,23.5 144.1,23.5 140.3,23.5 136.5,23.5 132.7,23.5 128.9,23.5 125.1,23.5 121.4,23.5 117.6,23.5 113.8,23.5 110.0,23.5 106.2,23.5 102.4,23.5 98.6,23.5 94.8,23.5 91.0,23.5 87.2,23.5 83.4,23.5 79.6,23.5 75.8,23.5 72.0,23.5"/><polyline class="ext" points="72.0,214.5 75.8,214.5 79.6,214.5 83.4,214.5 87.2,214.5 91.0,214.5 94.8,214.5 98.6,214.5 102.4,214.5 106.2,214.5 110.0,214.5 113.8,214.5 117.6,214.5 121.4,214.5 125.1,214.5 128.9,214.5 132.7,214.5 136.5,214.5 140.3,214.5 144.1,214.5 147.9,214.5 151.7,214.5 155.5,214.5 159.3,214.5 163.1,214.5 166.9,214.5 170.7,214.5 174.5,214.5 178.3,214.5 182.1,214.5 185.9,214.5 189.7,214.5 193.5,214.5 197.3,214.5 201.1,214.5 204.9,214.5 208.7,214.5 212.5,214.5 216.3,214.5 220.1,214.5 223.9,214.5 227.7,214.5 231.4,214.5 235.2,214.5 239.0,214.5 242.8,214.5 246.6,214.5 250.4,214.5 254.2,214.5 258.0,214.5 261.8,214.5 265.6,214.5 269.4,214.5 273.2,214.5 277.0,214.5 280.8,214.5 284.6,214.5 288.4,214.5 292.2,214.5 296.0,214.5 299.8,214.5 303.6,214.5 307.4,214.5 311.2,214.5 315.0,214.5 318.8,214.5 322.6,214.5 326.4,214.5 330.2,214.5 334.0,214.5 337.7,214.5 341.5,214.5 345.3,214.5 349.1,214.5 352.9,214.5 356.7,214.5 360.5,214.5 364.3,214.5 368.1,214.5 371.9,214.5 375.7,214.5 379.5,214.5 383.3,214.5 387.1,214.5 390.9,214.5 394.7,214.5 398.5,214.5 402.3,214.5 406.1,214.5 409.9,214.5 413.7,214.5 417.5,214.5 421.3,214.5 425.1,214.5 428.9,214.5 432.7,214.5 436.5,23.5 440.3,23.5 444.0,23.5 447.8,23.5 451.6,23.5 455.4,23.5 459.2,23.5 463.0,23.5 466.8,23.5 470.6,23.5 474.4,23.5 478.2,23.5 482.0,23.5 485.8,23.5 489.6,23.5 493.4,23.5 497.2,23.5 501.0,23.5 504.8,23.5 508.6,23.5 512.4,23.5 516.2,23.5 520.0,23.5 523.8,23.5 527.6,23.5 531.4,23.5 535.2,23.5 539.0,23.5 542.8,23.5 546.6,23.5 550.3,23.5 554.1,23.5 557.9,23.5 561.7,23.5 565.5,23.5 569.3,23.5 573.1,23.5 576.9,23.5 580.7,23.5 584.5,23.5 588.3,23.5 592.1,23.5 595.9,23.5 599.7,23.5 603.5,23.5 607.3,23.5 611.1,23.5 614.9,23.5 618.7,23.5 622.5,23.5 626.3,23.5 630.1,23.5 633.9,23.5 637.7,23.5 641.5,23.5 645.3,23.5 649.1,23.5 652.9,23.5 656.6,23.5 660.4,23.5 664.2,23.5 668.0,23.5 671.8,23.5 675.6,23.5 679.4,23.5 683.2,23.5 687.0,23.5 690.8,23.5 694.6,23.5 698.4,23.5 702.2,23.5 706.0,23.5"/><polyline class="ext" points="72.0,23.5 75.8,23.5 79.6,23.5 83.4,23.5 87.2,23.5 91.0,23.5 94.8,23.5 98.6,23.5 102.4,23.5 106.2,23.5 110.0,23.5 113.8,23.5 117.6,23.5 121.4,23.5 125.1,23.5 128.9,23.5 132.7,23.5 136.5,23.5 140.3,23.5 144.1,23.5 147.9,23.5 151.7,23.5 155.5,23.5 159.3,23.5 163.1,23.5 166.9,23.5 170.7,23.5 174.5,23.5 178.3,23.5 182.1,23.5 185.9,23.5 189.7,23.5 193.5,23.5 197.3,23.5 201.1,23.5 204.9,23.5 208.7,23.5 212.5,23.5 216.3,23.5 220.1,23.5 223.9,23.5 227.7,23.5 231.4,23.5 235.2,23.5 239.0,23.5 242.8,23.5 246.6,23.5 250.4,23.5 254.2,23.5 258.0,23.5 261.8,23.5 265.6,23.5 269.4,23.5 273.2,23.5 277.0,23.5 280.8,23.5 284.6,23.5 288.4,23.5 292.2,23.5 296.0,23.5 299.8,23.5 303.6,23.5 307.4,23.5 311.2,23.5 315.0,23.5 318.8,23.5 322.6,23.5 326.4,23.5 330.2,23.5 334.0,23.5 337.7,23.5 341.5,23.5 345.3,23.5 349.1,23.5 352.9,23.5 356.7,23.5 360.5,23.5 364.3,23.5 368.1,23.5 371.9,23.5 375.7,23.5 379.5,23.5 383.3,23.5 387.1,23.5 390.9,23.5 394.7,23.5 398.5,23.5 402.3,23.5 406.1,23.5 409.9,23.5 413.7,23.5 417.5,23.5 421.3,23.5 425.1,23.5 428.9,23.5 432.7,23.5 436.5,23.5 440.3,23.5 444.0,23.5 447.8,23.5 451.6,23.5 455.4,23.5 459.2,23.5 463.0,23.5 466.8,23.5 470.6,23.5 474.4,23.5 478.2,23.5 482.0,23.5 485.8,23.5 489.6,23.5 493.4,23.5 497.2,23.5 501.0,23.5 504.8,23.5 508.6,23.5 512.4,23.5 516.2,23.5 520.0,23.5 523.8,23.5 527.6,23.5 531.4,23.5 535.2,23.5 539.0,23.5 542.8,23.5 546.6,23.5 550.3,23.5 554.1,23.5 557.9,23.5 561.7,23.5 565.5,23.5 569.3,23.5 573.1,23.5 576.9,23.5 580.7,23.5 584.5,23.5 588.3,23.5 592.1,23.5 595.9,23.5 599.7,23.5 603.5,23.5 607.3,23.5 611.1,23.5 614.9,23.5 618.7,23.5 622.5,23.5 626.3,23.5 630.1,23.5 633.9,23.5 637.7,23.5 641.5,23.5 645.3,23.5 649.1,23.5 652.9,23.5 656.6,23.5 660.4,23.5 664.2,23.5 668.0,23.5 671.8,23.5 675.6,23.5 679.4,23.5 683.2,23.5 687.0,23.5 690.8,23.5 694.6,23.5 698.4,23.5 702.2,23.5 706.0,23.5"/><polyline class="media" points="72.0,24.8 75.8,24.8 79.6,24.8 83.4,24.8 87.2,24.8 91.0,24.8 94.8,24.8 98.6,24.8 102.4,24.8 106.2,24.8 110.0,24.8 113.8,24.8 117.6,24.8 121.4,24.8 125.1,24.8 128.9,24.8 132.7,24.8 136.5,24.8 140.3,24.8 144.1,24.8 147.9,24.8 151.7,24.8 155.5,24.8 159.3,24.8 163.1,24.8 166.9,24.8 170.7,24.8 174.5,24.8 178.3,24.8 182.1,24.8 185.9,24.8 189.7,24.8 193.5,24.8 197.3,24.8 201.1,24.8 204.9,24.8 208.7,24.8 212.5,24.8 216.3,24.8 220.1,24.8 223.9,24.8 227.7,24.8 231.4,24.8 235.2,24.8 239.0,24.8 242.8,24.8 246.6,24.8 250.4,24.8 254.2,24.8 258.0,24.8 261.8,24.8 265.6,24.8 269.4,24.8 273.2,24.8 277.0,24.8 280.8,24.8 284.6,24.8 288.4,24.8 292.2,24.8 296.0,24.8 299.8,24.8 303.6,24.8 307.4,24.8 311.2,24.8 315.0,24.8 318.8,24.8 322.6,24.8 326.4,24.8 330.2,24.8 334.0,24.8 337.7,24.8 341.5,24.8 345.3,24.8 349.1,24.8 352.9,24.8 356.7,24.8 360.5,24.8 364.3,24.8 368.1,24.8 371.9,24.8 375.7,24.8 379.5,24.8 383.3,24.8 387.1,24.8 390.9,24.8 394.7,24.8 398.5,24.8 402.3,24.8 406.1,24.8 409.9,24.8 413.7,24.8 417.5,24.8 421.3,24.8 425.1,24.8 428.9,24.8 432.7,24.8 436.5,23.5 440.3,23.5 444.0,23.5 447.8,23.5 451.6,23.5 455.4,23.5 459.2,23.5 463.0,23.5 466.8,23.5 470.6,23.5 474.4,23.5 478.2,23.5 482.0,23.5 485.8,23.5 489.6,23.5 493.4,23.5 497.2,23.5 501.0,23.5 504.8,23.5 508.6,23.5 512.4,23.5 516.2,23.5 520.0,23.5 523.8,23.5 527.6,23.5 531.4,23.5 535.2,23.5 539.0,23.5 542.8,23.5 546.6,23.5 550.3,23.5 554.1,23.5 557.9,23.5 561.7,23.5 565.5,23.5 569.3,23.5 573.1,23.5 576.9,23.5 580.7,23.5 584.5,23.5 588.3,23.5 592.1,23.5 595.9,23.5 599.7,23.5 603.5,23.5 607.3,23.5 611.1,23.5 614.9,23.5 618.7,23.5 622.5,23.5 626.3,23.5 630.1,23.5 633.9,23.5 637.7,23.5 641.5,23.5 645.3,23.5 649.1,23.5 652.9,23.5 656.6,23.5 660.4,23.5 664.2,23.5 668.0,23.5 671.8,23.5 675.6,23.5 679.4,23.5 683.2,23.5 687.0,23.5 690.8,23.5 694.6,23.5 698.4,23.5 702.2,23.5 706.0,23.5"/><polyline class="p50" points="72.0,23.5 75.8,23.5 79.6,23.5 83.4,23.5 87.2,23.5 91.0,23.5 94.8,23.5 98.6,23.5 102.4,23.5 106.2,23.5 110.0,23.5 113.8,23.5 117.6,23.5 121.4,23.5 125.1,23.5 128.9,23.5 132.7,23.5 136.5,23.5 140.3,23.5 144.1,23.5 147.9,23.5 151.7,23.5 155.5,23.5 159.3,23.5 163.1,23.5 166.9,23.5 170.7,23.5 174.5,23.5 178.3,23.5 182.1,23.5 185.9,23.5 189.7,23.5 193.5,23.5 197.3,23.5 201.1,23.5 204.9,23.5 208.7,23.5 212.5,23.5 216.3,23.5 220.1,23.5 223.9,23.5 227.7,23.5 231.4,23.5 235.2,23.5 239.0,23.5 242.8,23.5 246.6,23.5 250.4,23.5 254.2,23.5 258.0,23.5 261.8,23.5 265.6,23.5 269.4,23.5 273.2,23.5 277.0,23.5 280.8,23.5 284.6,23.5 288.4,23.5 292.2,23.5 296.0,23.5 299.8,23.5 303.6,23.5 307.4,23.5 311.2,23.5 315.0,23.5 318.8,23.5 322.6,23.5 326.4,23.5 330.2,23.5 334.0,23.5 337.7,23.5 341.5,23.5 345.3,23.5 349.1,23.5 352.9,23.5 356.7,23.5 360.5,23.5 364.3,23.5 368.1,23.5 371.9,23.5 375.7,23.5 379.5,23.5 383.3,23.5 387.1,23.5 390.9,23.5 394.7,23.5 398.5,23.5 402.3,23.5 406.1,23.5 409.9,23.5 413.7,23.5 417.5,23.5 421.3,23.5 425.1,23.5 428.9,23.5 432.7,23.5 436.5,23.5 440.3,23.5 444.0,23.5 447.8,23.5 451.6,23.5 455.4,23.5 459.2,23.5 463.0,23.5 466.8,23.5 470.6,23.5 474.4,23.5 478.2,23.5 482.0,23.5 485.8,23.5 489.6,23.5 493.4,23.5 497.2,23.5 501.0,23.5 504.8,23.5 508.6,23.5 512.4,23.5 516.2,23.5 520.0,23.5 523.8,23.5 527.6,23.5 531.4,23.5 535.2,23.5 539.0,23.5 542.8,23.5 546.6,23.5 550.3,23.5 554.1,23.5 557.9,23.5 561.7,23.5 565.5,23.5 569.3,23.5 573.1,23.5 576.9,23.5 580.7,23.5 584.5,23.5 588.3,23.5 592.1,23.5 595.9,23.5 599.7,23.5 603.5,23.5 607.3,23.5 611.1,23.5 614.9,23.5 618.7,23.5 622.5,23.5 626.3,23.5 630.1,23.5 633.9,23.5 637.7,23.5 641.5,23.5 645.3,23.5 649.1,23.5 652.9,23.5 656.6,23.5 660.4,23.5 664.2,23.5 668.0,23.5 671.8,23.5 675.6,23.5 679.4,23.5 683.2,23.5 687.0,23.5 690.8,23.5 694.6,23.5 698.4,23.5 702.2,23.5 706.0,23.5"/></svg></div>
+      <div class="legend">
+        <span><i class="lg-banda"></i>percentiles 5–95</span><span><i class="lg-p50"></i>mediana</span>
+        <span><i class="lg-media"></i>media</span><span><i class="lg-ext"></i>mínimo y máximo</span>
+      </div>
+      <p class="small">Diferencia máxima 160 [USD/MWh]
+(valor típico de la variable: 159.9).
+        Hay diferencias en 7 de 1 000 crónicas y en 96 de 168 pasos; en total, 672 valores distintos.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Medida</th><th class="num">Medido</th><th class="num">Límite</th></tr></thead>
+        <tbody><tr><td>B · sesgo</td><td class="num over">0,700 %</td><td class="num">0,500 %</td></tr><tr><td>M · dispersión media</td><td class="num over">4,77 %</td><td class="num">1,00 %</td></tr><tr><td>Pσ · dispersión pico</td><td class="num over">8,34 %</td><td class="num">5,00 %</td></tr><tr><td>P05 · cola inferior</td><td class="num over">13,7 %</td><td class="num">5,00 %</td></tr></tbody>
+      </table></div>
+    </div>
+
+
+
+
+  </div>
+</section>
+
+
+<section id="metodo">
+  <h2>Cómo se evalúa</h2>
+  <ol class="steps">
+    <li><div>
+      <h3>Se ejecutan dos corridas comparables</h3>
+      <p>Se usan los binarios oficiales de cada paquete (<code>cmdopt</code>, <code>cmdsim</code>) sobre una copia de la sala, con la misma semilla y las mismas crónicas. Una corrida se acepta solo si terminó bien: el binario dejó su marca de éxito, el log no tiene errores fatales y el archivo de resultados tiene todas las crónicas completas y fue escrito por la versión esperada.</p>
+    </div></li>
+    <li><div>
+      <h3>Se calcula la diferencia en cada paso y cada crónica</h3>
+      <p>Para cada variable publicada se arma una matriz de diferencias, con una fila por paso de tiempo y una columna por crónica:</p>
+      <div class="formula">D(paso, crónica) = valor en la versión nueva − valor en la referencia</div>
+      <p>Si D es cero en toda la matriz, la variable es <strong>idéntica</strong>.</p>
+    </div></li>
+    <li><div>
+      <h3>Si hay diferencias, se miden contra una tolerancia</h3>
+      <p>Un cambio puede mover resultados por redondeo sin que eso sea un error. Para separar el ruido numérico de un cambio real se calculan seis medidas sobre D. Todas se expresan como porcentaje del <strong>valor típico</strong> de la variable: la raíz media cuadrática, a lo largo de los pasos, del promedio entre crónicas de la referencia. Así un caudal y un precio se juzgan con los mismos límites.</p>
+    </div></li>
+  </ol>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Medida</th><th>Qué mide</th><th class="num">Límite</th></tr></thead>
+    <tbody>
+      <tr><td><span class="sym">B</span><br>Sesgo</td><td>Si una versión da sistemáticamente más o menos que la otra. Es el mayor promedio de D entre crónicas, en valor absoluto, sobre todos los pasos.</td><td class="num">0,500 %<br><span class="muted">FAIL directo &gt; 2,00 %</span></td></tr>
+      <tr><td><span class="sym">M</span><br>Dispersión media</td><td>Desvío estándar de D entre crónicas, promediado sobre los pasos.</td><td class="num">1,00 %</td></tr>
+      <tr><td><span class="sym">Pσ</span><br>Dispersión pico</td><td>El mismo desvío, en el peor paso.</td><td class="num">5,00 %</td></tr>
+      <tr><td><span class="sym">P95</span><br>Cola superior</td><td>Promedio del 5 % de crónicas con mayor D, en el peor paso.</td><td class="num">5,00 %</td></tr>
+      <tr><td><span class="sym">P05</span><br>Cola inferior</td><td>Promedio del 5 % de crónicas con menor D, en magnitud, en el peor paso.</td><td class="num">5,00 %</td></tr>
+      <tr><td><span class="sym">f</span><br>Frecuencia de eventos</td><td>Fracción de pasos con un salto anómalo: un desvío mayor a 3,00 veces el desvío medio o una cola superior mayor a 5,00 %.</td><td class="num">1,00 %</td></tr>
+    </tbody>
+  </table></div>
+  <div class="rules">
+    <div class="rule"><span class="pill PASS">PASS</span><span>Las seis medidas están dentro de su límite: la diferencia es ruido numérico, o no hay diferencia.</span></div>
+    <div class="rule"><span class="pill WARN">WARN</span><span>No hay sesgo ni saltos frecuentes, pero alguna medida de dispersión supera su límite.</span></div>
+    <div class="rule"><span class="pill FAIL">FAIL</span><span>El sesgo supera 2,00 %, o alguna medida supera su límite sin cumplir las condiciones de WARN.</span></div>
+  </div>
+  <p>Este criterio sigue el documento <em>CriterioValidacion.odt</em>, con los límites que usa ValSim. En las pruebas donde la teoría exige igualdad exacta (por ejemplo, 1 hilo contra varios hilos con la misma CF y semilla) se aplica además el criterio <strong>idéntico</strong>: cualquier diferencia, por chica que sea, es FAIL.</p>
+  <p>Además de comparar, cada corrida se verifica sola contra reglas físicas que no dependen de la versión, por ejemplo que la potencia no supere la disponible o que la cota quede entre su mínimo y su máximo. Así se detectan errores que las dos versiones podrían compartir.</p>
+</section>
+
+<section id="cobertura">
+  <h2>Qué situaciones ejercitó la validación</h2>
+  <p>Una comparación solo prueba lo que efectivamente ocurrió en las simulaciones. Si ninguna crónica llega, por ejemplo, a falla, un error en esa lógica no se detectaría. La tabla indica en cuántos actores se dio cada situación al menos una vez.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Situación</th><th>CP_Verano</th><th>SalaTest</th></tr></thead>
+    <tbody><tr><td>Generador a potencia máxima</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:53.333333333333336%"></span></span>8 de 15</span></td><td><span class="cov"><span class="bar"><span class="act" style="width:25.0%"></span></span>1 de 4</span></td>    </tr><tr><td>Generador disponible sin despachar</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:33.333333333333336%"></span></span>5 de 15</span></td><td><span class="cov"><span class="bar"><span class="act" style="width:25.0%"></span></span>1 de 4</span></td>    </tr><tr><td>Todas las máquinas de una central en uso</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:43.75%"></span></span>7 de 16</span></td><td><span class="cov"><span class="bar"><span class="act" style="width:50.0%"></span></span>2 de 4</span></td>    </tr><tr><td>Restricción activa (precio sombra ≠ 0)</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:46.15384615384615%"></span></span>6 de 13</span></td><td><span class="muted">no aplica</span></td>    </tr><tr><td>Vertimiento en embalse</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:50.0%"></span></span>2 de 4</span></td><td><span class="muted">no aplica</span></td>    </tr><tr><td>Precio spot en el piso</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:100.0%"></span></span>3 de 3</span></td><td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td>    </tr><tr><td>Precio spot en el techo</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td><td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td>    </tr><tr><td>Falla (demanda no abastecida)</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td><td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td>    </tr><tr><td>Penalizaciones extra</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td><td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td>    </tr><tr><td>Embalse en cota máxima</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td><td><span class="muted">no aplica</span></td>    </tr><tr><td>Embalse en cota mínima</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td><td><span class="muted">no aplica</span></td>    </tr><tr><td>Embalse por debajo de la franja sin penalización</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td><td><span class="muted">no aplica</span></td>    </tr><tr><td>Embalse por encima de la franja sin penalización</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td><td><span class="muted">no aplica</span></td>    </tr><tr><td>Congestión de líneas</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td><td><span class="muted">no aplica</span></td>    </tr><tr><td>Recorte de generación</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td><td><span class="muted">no aplica</span></td>    </tr></tbody>
+  </table></div>
+</section>
+
+<details>
+  <summary>Glosario</summary>
+  <dl class="gloss">
+    <dt>Crónica</dt><dd>Una realización posible del futuro: una secuencia sorteada de aportes hidráulicos, viento, demanda y otras variables aleatorias.</dd>
+    <dt>Paso</dt><dd>Un intervalo de tiempo de la simulación.</dd>
+    <dt>Semilla</dt><dd>El número que inicia el generador aleatorio. Con la misma semilla, las dos corridas sortean las mismas crónicas.</dd>
+    <dt>CF</dt><dd>Función de costo futuro: la política de operación que calcula el optimizador. Si las dos corridas usan la misma CF, la comparación aísla al simulador.</dd>
+    <dt>Hilos</dt><dd>Cantidad de procesos que simulan crónicas en paralelo. Con la misma CF y semilla, el resultado no debería depender de cuántos se usen.</dd>
+    <dt>Clásico / icf</dt><dd>Los dos modos de resolución que trae cada paquete (<code>cmdsim</code> y <code>cmdsim_icf</code>).</dd>
+    <dt>Variable publicada</dt><dd>Cada magnitud que un actor expone para las plantillas de resultados (potencia, costo variable, cota…). Se comparan todas, no solo las que la sala tenía configuradas.</dd>
+    <dt>Percentil</dt><dd>El percentil 95 de un paso es el valor que el 95 % de las crónicas no supera en ese paso.</dd>
+  </dl>
+</details>
+
+<details>
+  <summary>Datos de las corridas</summary>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Prueba</th><th>Corrida</th><th>Versión</th><th>Modo</th><th>Hilos</th><th>Estado</th><th class="num">Duración</th></tr></thead>
+    <tbody>      <tr><td class="mono">version_sim</td><td>ref.</td><td class="mono">269.359.8448</td><td>icf</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span> <span class="muted small">reutilizada</span></td>
+      <td class="num">34.0 s</td></tr>
+      <tr><td class="mono">version_sim</td><td>nueva</td><td class="mono">277.363.8612</td><td>icf</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span> <span class="muted small">reutilizada</span></td>
+      <td class="num">27.4 s</td></tr>
+      <tr><td class="mono">version_opt_sim</td><td>ref.</td><td class="mono">269.359.8448</td><td>clásico</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span> <span class="muted small">reutilizada</span></td>
+      <td class="num">0.9 s</td></tr>
+      <tr><td class="mono">version_opt_sim</td><td>nueva</td><td class="mono">277.363.8612</td><td>clásico</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span> <span class="muted small">reutilizada</span></td>
+      <td class="num">0.2 s</td></tr>
+      <tr><td class="mono">hilos_sim</td><td>ref.</td><td class="mono">277.363.8612</td><td>icf</td><td>1 hilo</td>
+      <td><span class="pill PASS">OK</span> <span class="muted small">reutilizada</span></td>
+      <td class="num">78.3 s</td></tr>
+      <tr><td class="mono">hilos_sim</td><td>nueva</td><td class="mono">277.363.8612</td><td>icf</td><td>8 hilos</td>
+      <td><span class="pill PASS">OK</span> <span class="muted small">reutilizada</span></td>
+      <td class="num">24.5 s</td></tr>
+      <tr><td class="mono">modos</td><td>ref.</td><td class="mono">277.363.8612</td><td>clásico</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span> <span class="muted small">reutilizada</span></td>
+      <td class="num">0.2 s</td></tr>
+      <tr><td class="mono">modos</td><td>nueva</td><td class="mono">277.363.8612</td><td>icf</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span> <span class="muted small">reutilizada</span></td>
+      <td class="num">0.2 s</td></tr>
+</tbody>
+  </table></div>
+  <p class="muted small" style="margin-top:0.8rem">«Reutilizada»: el resultado ya estaba calculado con exactamente las mismas entradas (binarios, sala, CF y parámetros, verificados por hash).</p>
+</details>
+
+<details open>
+  <summary>Validaciones anteriores</summary>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Fecha</th><th>Nueva</th><th>Referencia</th><th>Nivel</th><th>Resultado</th></tr></thead>
+    <tbody>      <tr><td class="num" style="text-align:left"><a href="noche_20261103_204821.html">2026-11-03 20:48</a></td>
+      <td class="mono">277.363.8612</td><td class="mono">269.359.8448</td><td>noche</td>
+      <td><span class="pill FAIL">FAIL</span> <span class="muted small">3 de 4 pruebas</span></td></tr>
+      <tr><td class="num" style="text-align:left"><a href="noche_20261103_203711.html">2026-11-03 20:37</a></td>
+      <td class="mono">276.363.8596</td><td class="mono">269.359.8448</td><td>noche</td>
+      <td><span class="pill FAIL">FAIL</span> <span class="muted small">3 de 4 pruebas</span></td></tr>
+      <tr><td class="num" style="text-align:left"><a href="noche_20261102_150813.html">2026-11-02 15:08</a></td>
+      <td class="mono">277.363.8612</td><td class="mono">276.363.8596</td><td>noche</td>
+      <td><span class="pill FAIL">FAIL</span> <span class="muted small">1 de 4 pruebas</span></td></tr>
+</tbody>
+  </table></div>
+</details>
+
+<footer>Generado por simval el 3 nov 2026, 20:49 a partir de la campaña <span class="mono">noche_20261103_204821</span>.</footer>
+</div>
+</body>
+</html>
