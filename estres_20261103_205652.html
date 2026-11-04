@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Validación SimSEE 277.363.8612</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Informe de una columna (~68ch): resumen arriba, detalle abajo; tablas y gráficos con scroll propio */
+:root {
+  --bg: #f6f7f8; --surface: #ffffff; --fg: #1b2129; --muted: #5a6573; --line: #dde1e6;
+  --accent: #1d5e8c; --accent-soft: #e5eef5;
+  --pass: #1f7a4d; --pass-soft: #e3f2ea; --fail: #b3362b; --fail-soft: #f8e6e3;
+  --warn: #9a6a00; --warn-soft: #f7efd9;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12161b; --surface: #1a2027; --fg: #e4e8ec; --muted: #9aa5b1; --line: #2c343d;
+    --accent: #7fb6e0; --accent-soft: #1d2a36; --pass: #6fcf9a; --pass-soft: #17291f;
+    --fail: #f08a7e; --fail-soft: #33201e; --warn: #e2b44f; --warn-soft: #2e2716;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 17px; line-height: 1.55; }
+.wrap {
+  max-width: 56rem; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 2.5rem 4rem; display: flex; flex-direction: column; gap: 3rem;
+}
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.2; }
+h1 { font-size: clamp(1.8rem, 4.5vw, 2.5rem); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 1.45rem; font-weight: 600; }
+h3 { font-size: 1.08rem; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+section { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+.eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+.small { font-size: 0.9rem; }
+code, .mono { font-family: var(--font-mono); font-size: 0.88em; overflow-wrap: anywhere; }
+a { color: var(--accent); }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+header { display: flex; flex-direction: column; gap: 0.9rem; }
+.versions { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; font-family: var(--font-mono); font-size: 0.9rem; color: var(--muted); }
+.versions b { color: var(--fg); font-weight: 500; }
+
+.verdict { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--pass); border-radius: 10px; padding: 1.3rem 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; }
+.verdict.FAIL, .verdict.ERROR { border-left-color: var(--fail); }
+.verdict.WARN { border-left-color: var(--warn); }
+.verdict .big { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; line-height: 1.3; text-wrap: balance; }
+.verdict ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.35rem; max-width: 68ch; }
+
+.pill { display: inline-flex; align-items: center; font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em; padding: 0.12rem 0.55rem; border-radius: 999px; white-space: nowrap; }
+.pill.PASS, .pill.OK { background: var(--pass-soft); color: var(--pass); }
+.pill.FAIL, .pill.ERROR { background: var(--fail-soft); color: var(--fail); }
+.pill.WARN { background: var(--warn-soft); color: var(--warn); }
+
+.tests { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 1rem; }
+.test { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; }
+.test.FAIL, .test.ERROR { border-color: var(--fail); }
+.test.WARN { border-color: var(--warn); }
+.test .top { display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; }
+.test .q { font-size: 0.95rem; font-family: var(--font-body); font-weight: 400; }
+.ab { display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.7rem; font-size: 0.9rem; margin: 0; }
+.ab dt { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); padding-top: 0.2rem; }
+.ab dd { margin: 0; min-width: 0; }
+.bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: var(--line); }
+.bar span { display: block; height: 100%; }
+.bar .ident { background: var(--pass); }
+.bar .tol { background: color-mix(in srgb, var(--pass) 55%, var(--surface)); }
+.bar .warn { background: var(--warn); min-width: 3px; }
+.bar .fail { background: var(--fail); min-width: 3px; }
+.count { font-variant-numeric: tabular-nums; font-size: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.2rem 0.9rem; }
+
+.item { display: flex; flex-direction: column; gap: 1rem; border-left: 3px solid var(--fail); padding-left: 1.2rem; }
+.item.WARN { border-left-color: var(--warn); }
+.graf-card { display: flex; flex-direction: column; gap: 0.5rem; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.1rem; min-width: 0; }
+.graf-card .head { display: flex; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; align-items: baseline; }
+.graf-wrap { overflow-x: auto; }
+svg.graf { width: 100%; min-width: 30rem; height: auto; display: block; }
+svg.graf .grid { stroke: var(--line); stroke-width: 1; }
+svg.graf .cero { stroke: var(--muted); stroke-width: 1; }
+svg.graf .banda { fill: var(--accent); fill-opacity: 0.22; stroke: none; }
+svg.graf .p50 { fill: none; stroke: var(--accent); stroke-width: 2; }
+svg.graf .media { fill: none; stroke: var(--fg); stroke-width: 1.2; stroke-dasharray: 5 4; }
+svg.graf .ext { fill: none; stroke: var(--fail); stroke-width: 1; stroke-opacity: 0.8; }
+svg.graf text { fill: var(--muted); font-family: var(--font-mono); font-size: 11px; }
+svg.graf .ty { text-anchor: end; }
+svg.graf .tx { text-anchor: middle; }
+.legend { display: flex; flex-wrap: wrap; gap: 0.3rem 1.1rem; font-size: 0.82rem; color: var(--muted); }
+.legend i { display: inline-block; width: 18px; height: 10px; vertical-align: 0; margin-right: 0.35rem; }
+.lg-banda { background: var(--accent); opacity: 0.35; }
+.lg-p50 { border-top: 2px solid var(--accent); height: 0 !important; vertical-align: 3px !important; }
+.lg-media { border-top: 1.5px dashed var(--fg); height: 0 !important; vertical-align: 3px !important; }
+.lg-ext { border-top: 1px solid var(--fail); height: 0 !important; vertical-align: 3px !important; }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { text-align: left; padding: 0.55rem 0.85rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+th { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+td.num, th.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+td.num { font-family: var(--font-mono); font-size: 0.85rem; }
+td.over { color: var(--fail); font-weight: 600; }
+.sym { font-family: var(--font-mono); font-size: 0.82rem; color: var(--accent); white-space: nowrap; }
+.none { color: var(--warn); }
+
+.steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: flex; flex-direction: column; gap: 1rem; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 2rem 1fr; gap: 0.75rem; }
+.steps li::before { content: counter(s); font-family: var(--font-display); font-weight: 600; width: 1.75rem; height: 1.75rem; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-size: 0.9rem; }
+.steps li > div { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+.formula { font-family: var(--font-mono); font-size: 0.9rem; background: var(--accent-soft); padding: 0.55rem 0.8rem; border-radius: 6px; width: fit-content; max-width: 100%; overflow-x: auto; }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 0.8rem; }
+.rule { border: 1px solid var(--line); border-radius: 8px; padding: 0.9rem 1rem; background: var(--surface); display: flex; flex-direction: column; gap: 0.4rem; align-items: flex-start; font-size: 0.93rem; }
+.cov { display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap; }
+.cov .bar { width: 4.5rem; }
+.cov .bar .act { background: var(--accent); }
+dl.gloss { display: grid; grid-template-columns: minmax(7rem, max-content) 1fr; gap: 0.6rem 1.2rem; margin: 0; }
+dl.gloss dt { font-weight: 600; }
+dl.gloss dd { margin: 0; max-width: 62ch; }
+@media (max-width: 34rem) { dl.gloss { grid-template-columns: 1fr; gap: 0.15rem; } dl.gloss dd { margin-bottom: 0.6rem; } }
+details { border-top: 1px solid var(--line); padding-top: 1rem; }
+summary { cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; }
+details[open] summary { margin-bottom: 1rem; }
+details.inner { border: 0; padding: 0; }
+details.inner summary { font-size: 0.95rem; font-family: var(--font-body); color: var(--accent); }
+footer { font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 1rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Validación automática de SimSEE · nivel «estres»</span>
+  <h1>Validación de SimSEE 277.363.8612</h1>
+  <div class="versions">
+    <span>versión nueva <b>277.363.8612</b></span>
+    <span>comparada contra <b>269.359.8448</b></span>
+<span>ejecutada <b>3 nov 2026, 20:56</b></span>  </div>
+</header>
+
+<div class="verdict WARN">
+  <div class="big">No hay resultados fuera de tolerancia; 5 de 5 pruebas tienen advertencias.</div>
+  <ul>
+    <li>5 880 comparaciones de variables en 5 pruebas; 5 876 dieron idénticas bit a bit.</li>
+    <li><a href="#p1-version_sim">version_sim · CP_Verano</a>:
+        cambió el conjunto de variables publicadas.
+</li>
+    <li><a href="#p2-version_estres">version_estres · CP_Verano_sequia</a>:
+        cambió el conjunto de variables publicadas.
+</li>
+    <li><a href="#p3-version_estres">version_estres · CP_Verano_crecida</a>:
+        cambió el conjunto de variables publicadas.
+</li>
+    <li><a href="#p4-version_estres">version_estres · CP_Verano_demanda_alta</a>:
+        cambió el conjunto de variables publicadas.
+</li>
+    <li><a href="#p5-version_estres">version_estres · CP_Verano_sin_termicas</a>:
+        cambió el conjunto de variables publicadas.
+</li>
+    <li>Reglas físicas: ninguna violada en las corridas (hasta 1 276 controles por corrida).</li>
+  </ul>
+</div>
+
+<section id="pruebas">
+  <h2>Qué se probó</h2>
+  <p>Cada prueba ejecuta la misma sala dos veces cambiando una sola cosa y compara todas las variables que publican los actores, en cada paso de tiempo y en cada crónica. Si los resultados cambian, la causa es lo único que se modificó entre las dos corridas.</p>
+  <div class="tests">
+    <article class="test WARN">
+      <div class="top">
+        <span class="eyebrow">CP_Verano · version_sim</span>
+        <span class="pill WARN">WARN</span>
+      </div>
+<h3 class="q">Misma sala, misma CF y misma semilla con la versión base y la versión test. Diferencias = cambios en el simulador.</h3>      <dl class="ab">
+        <dt>REF.</dt><dd>269.359.8448 · icf · hilos automático</dd>
+        <dt>NUEVA</dt><dd>277.363.8612 · icf · hilos automático</dd>
+<dt>IGUAL</dt><dd class="muted">misma CF · semilla 31 · 1 000 crónicas × 168 pasos</dd>      </dl>
+      <div class="bar" role="img" aria-label="1176 idénticas, 0 dentro de tolerancia, 0 WARN, 0 FAIL o ERROR de 1176">
+        <span class="ident" style="width:100.0%"></span>
+        <span class="tol" style="width:0.0%"></span>
+      </div>
+      <div class="count">
+        <span><strong>1 176</strong> de 1 176 idénticas</span>
+      </div>
+    </article>
+    <article class="test WARN">
+      <div class="top">
+        <span class="eyebrow">CP_Verano_sequia · version_estres</span>
+        <span class="pill WARN">WARN</span>
+      </div>
+<h3 class="q">Base vs test sobre las salas de estrés, misma CF y semilla. Compara comportamientos que la sala normal nunca activa.</h3>      <dl class="ab">
+        <dt>REF.</dt><dd>269.359.8448 · icf · hilos automático</dd>
+        <dt>NUEVA</dt><dd>277.363.8612 · icf · hilos automático</dd>
+<dt>IGUAL</dt><dd class="muted">misma CF · semilla 31 · 1 000 crónicas × 168 pasos</dd><dt>SALA</dt><dd class="muted small">modificada: Ap_*_mult/lpd/*.valor: 17 valores (factor=0.05) · Bonete.hIni: 1 valores (valor=72.1) · Palmar.hIni: 1 valores (valor=37.2) · SG.hIni: 1 valores (valor=30.3)</dd>      </dl>
+      <div class="bar" role="img" aria-label="1174 idénticas, 2 dentro de tolerancia, 0 WARN, 0 FAIL o ERROR de 1176">
+        <span class="ident" style="width:99.82993197278911%"></span>
+        <span class="tol" style="width:0.17006802721088435%"></span>
+      </div>
+      <div class="count">
+        <span><strong>1 174</strong> de 1 176 idénticas</span>
+<span>2 dentro de tolerancia</span>      </div>
+    </article>
+    <article class="test WARN">
+      <div class="top">
+        <span class="eyebrow">CP_Verano_crecida · version_estres</span>
+        <span class="pill WARN">WARN</span>
+      </div>
+<h3 class="q">Base vs test sobre las salas de estrés, misma CF y semilla. Compara comportamientos que la sala normal nunca activa.</h3>      <dl class="ab">
+        <dt>REF.</dt><dd>269.359.8448 · icf · hilos automático</dd>
+        <dt>NUEVA</dt><dd>277.363.8612 · icf · hilos automático</dd>
+<dt>IGUAL</dt><dd class="muted">misma CF · semilla 31 · 1 000 crónicas × 168 pasos</dd><dt>SALA</dt><dd class="muted small">modificada: Ap_*_mult/lpd/*.valor: 17 valores (factor=5) · Bonete.hIni: 1 valores (valor=81.8) · Palmar.hIni: 1 valores (valor=41.8) · SG.hIni: 1 valores (valor=35.8)</dd>      </dl>
+      <div class="bar" role="img" aria-label="1176 idénticas, 0 dentro de tolerancia, 0 WARN, 0 FAIL o ERROR de 1176">
+        <span class="ident" style="width:100.0%"></span>
+        <span class="tol" style="width:0.0%"></span>
+      </div>
+      <div class="count">
+        <span><strong>1 176</strong> de 1 176 idénticas</span>
+      </div>
+    </article>
+    <article class="test WARN">
+      <div class="top">
+        <span class="eyebrow">CP_Verano_demanda_alta · version_estres</span>
+        <span class="pill WARN">WARN</span>
+      </div>
+<h3 class="q">Base vs test sobre las salas de estrés, misma CF y semilla. Compara comportamientos que la sala normal nunca activa.</h3>      <dl class="ab">
+        <dt>REF.</dt><dd>269.359.8448 · icf · hilos automático</dd>
+        <dt>NUEVA</dt><dd>277.363.8612 · icf · hilos automático</dd>
+<dt>IGUAL</dt><dd class="muted">misma CF · semilla 31 · 1 000 crónicas × 168 pasos</dd><dt>SALA</dt><dd class="muted small">modificada: Demanda.curvaDemFilt_tramo1: 1 valores (factor=1.5) · Demanda.curvaDemFilt_tramo2: 1 valores (factor=1.5) · Demanda.curvaDemFilt_tramo3: 1 valores (factor=1.5) · Demanda.curvaDemFilt_tramo4: 1 valores (factor=1.5)</dd>      </dl>
+      <div class="bar" role="img" aria-label="1174 idénticas, 2 dentro de tolerancia, 0 WARN, 0 FAIL o ERROR de 1176">
+        <span class="ident" style="width:99.82993197278911%"></span>
+        <span class="tol" style="width:0.17006802721088435%"></span>
+      </div>
+      <div class="count">
+        <span><strong>1 174</strong> de 1 176 idénticas</span>
+<span>2 dentro de tolerancia</span>      </div>
+    </article>
+    <article class="test WARN">
+      <div class="top">
+        <span class="eyebrow">CP_Verano_sin_termicas · version_estres</span>
+        <span class="pill WARN">WARN</span>
+      </div>
+<h3 class="q">Base vs test sobre las salas de estrés, misma CF y semilla. Compara comportamientos que la sala normal nunca activa.</h3>      <dl class="ab">
+        <dt>REF.</dt><dd>269.359.8448 · icf · hilos automático</dd>
+        <dt>NUEVA</dt><dd>277.363.8612 · icf · hilos automático</dd>
+<dt>IGUAL</dt><dd class="muted">misma CF · semilla 31 · 1 000 crónicas × 168 pasos</dd><dt>SALA</dt><dd class="muted small">modificada: clase TGTer*/lpd/*.disp: 119 valores (valor=0)</dd>      </dl>
+      <div class="bar" role="img" aria-label="1176 idénticas, 0 dentro de tolerancia, 0 WARN, 0 FAIL o ERROR de 1176">
+        <span class="ident" style="width:100.0%"></span>
+        <span class="tol" style="width:0.0%"></span>
+      </div>
+      <div class="count">
+        <span><strong>1 176</strong> de 1 176 idénticas</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="resultados">
+  <h2>Resultados fuera de lo esperado</h2>
+  <p>Para cada variable que no pasó se grafica, paso a paso, cómo se distribuye entre las crónicas la diferencia <em>versión nueva − referencia</em>. La banda va del percentil 5 al 95, la línea llena es la mediana (percentil 50), la punteada es la media y las líneas finas son el mínimo y el máximo entre crónicas. Si las dos corridas coincidieran, todo quedaría sobre el cero.</p>
+  <div class="item WARN" id="p1-version_sim">
+    <div>
+      <span class="eyebrow">CP_Verano · version_sim</span>
+      <h3 style="margin-top:0.3rem">269.359.8448 · icf · hilos automático contra 277.363.8612 · icf · hilos automático</h3>
+    </div>
+
+
+
+
+    <p>Variables publicadas solo por la versión nueva: ninguna.<br>
+       Variables publicadas solo por la referencia: Baygorria.Q_P1, Bonete.Q_P1, CC540.Q_P1, CC540_Gas.Q_P1, CTR.Q_P1, Combinado.Q_P1, GenDIS.Q_P1, Motores.Q_P1, PTA_78.Q_P1, PTI_GO.Q_P1, PTI_Gas.Q_P1, Palmar.Q_P1, SG.Q_P1, UPM.Q_P1, UPM2.Q_P1, estabilizador_1MW.Q_P1.</p>
+
+  </div>
+  <div class="item WARN" id="p2-version_estres">
+    <div>
+      <span class="eyebrow">CP_Verano_sequia · version_estres</span>
+      <h3 style="margin-top:0.3rem">269.359.8448 · icf · hilos automático contra 277.363.8612 · icf · hilos automático</h3>
+    </div>
+
+
+
+
+    <p>Variables publicadas solo por la versión nueva: ninguna.<br>
+       Variables publicadas solo por la referencia: Baygorria.Q_P1, Bonete.Q_P1, CC540.Q_P1, CC540_Gas.Q_P1, CTR.Q_P1, Combinado.Q_P1, GenDIS.Q_P1, Motores.Q_P1, PTA_78.Q_P1, PTI_GO.Q_P1, PTI_Gas.Q_P1, Palmar.Q_P1, SG.Q_P1, UPM.Q_P1, UPM2.Q_P1, estabilizador_1MW.Q_P1.</p>
+
+  </div>
+  <div class="item WARN" id="p3-version_estres">
+    <div>
+      <span class="eyebrow">CP_Verano_crecida · version_estres</span>
+      <h3 style="margin-top:0.3rem">269.359.8448 · icf · hilos automático contra 277.363.8612 · icf · hilos automático</h3>
+    </div>
+
+
+
+
+    <p>Variables publicadas solo por la versión nueva: ninguna.<br>
+       Variables publicadas solo por la referencia: Baygorria.Q_P1, Bonete.Q_P1, CC540.Q_P1, CC540_Gas.Q_P1, CTR.Q_P1, Combinado.Q_P1, GenDIS.Q_P1, Motores.Q_P1, PTA_78.Q_P1, PTI_GO.Q_P1, PTI_Gas.Q_P1, Palmar.Q_P1, SG.Q_P1, UPM.Q_P1, UPM2.Q_P1, estabilizador_1MW.Q_P1.</p>
+
+  </div>
+  <div class="item WARN" id="p4-version_estres">
+    <div>
+      <span class="eyebrow">CP_Verano_demanda_alta · version_estres</span>
+      <h3 style="margin-top:0.3rem">269.359.8448 · icf · hilos automático contra 277.363.8612 · icf · hilos automático</h3>
+    </div>
+
+
+
+
+    <p>Variables publicadas solo por la versión nueva: ninguna.<br>
+       Variables publicadas solo por la referencia: Baygorria.Q_P1, Bonete.Q_P1, CC540.Q_P1, CC540_Gas.Q_P1, CTR.Q_P1, Combinado.Q_P1, GenDIS.Q_P1, Motores.Q_P1, PTA_78.Q_P1, PTI_GO.Q_P1, PTI_Gas.Q_P1, Palmar.Q_P1, SG.Q_P1, UPM.Q_P1, UPM2.Q_P1, estabilizador_1MW.Q_P1.</p>
+
+  </div>
+  <div class="item WARN" id="p5-version_estres">
+    <div>
+      <span class="eyebrow">CP_Verano_sin_termicas · version_estres</span>
+      <h3 style="margin-top:0.3rem">269.359.8448 · icf · hilos automático contra 277.363.8612 · icf · hilos automático</h3>
+    </div>
+
+
+
+
+    <p>Variables publicadas solo por la versión nueva: ninguna.<br>
+       Variables publicadas solo por la referencia: Baygorria.Q_P1, Bonete.Q_P1, CC540.Q_P1, CC540_Gas.Q_P1, CTR.Q_P1, Combinado.Q_P1, GenDIS.Q_P1, Motores.Q_P1, PTA_78.Q_P1, PTI_GO.Q_P1, PTI_Gas.Q_P1, Palmar.Q_P1, SG.Q_P1, UPM.Q_P1, UPM2.Q_P1, estabilizador_1MW.Q_P1.</p>
+
+  </div>
+</section>
+
+
+<section id="metodo">
+  <h2>Cómo se evalúa</h2>
+  <ol class="steps">
+    <li><div>
+      <h3>Se ejecutan dos corridas comparables</h3>
+      <p>Se usan los binarios oficiales de cada paquete (<code>cmdopt</code>, <code>cmdsim</code>) sobre una copia de la sala, con la misma semilla y las mismas crónicas. Una corrida se acepta solo si terminó bien: el binario dejó su marca de éxito, el log no tiene errores fatales y el archivo de resultados tiene todas las crónicas completas y fue escrito por la versión esperada.</p>
+    </div></li>
+    <li><div>
+      <h3>Se calcula la diferencia en cada paso y cada crónica</h3>
+      <p>Para cada variable publicada se arma una matriz de diferencias, con una fila por paso de tiempo y una columna por crónica:</p>
+      <div class="formula">D(paso, crónica) = valor en la versión nueva − valor en la referencia</div>
+      <p>Si D es cero en toda la matriz, la variable es <strong>idéntica</strong>.</p>
+    </div></li>
+    <li><div>
+      <h3>Si hay diferencias, se miden contra una tolerancia</h3>
+      <p>Un cambio puede mover resultados por redondeo sin que eso sea un error. Para separar el ruido numérico de un cambio real se calculan seis medidas sobre D. Todas se expresan como porcentaje del <strong>valor típico</strong> de la variable: la raíz media cuadrática, a lo largo de los pasos, del promedio entre crónicas de la referencia. Así un caudal y un precio se juzgan con los mismos límites.</p>
+    </div></li>
+  </ol>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Medida</th><th>Qué mide</th><th class="num">Límite</th></tr></thead>
+    <tbody>
+      <tr><td><span class="sym">B</span><br>Sesgo</td><td>Si una versión da sistemáticamente más o menos que la otra. Es el mayor promedio de D entre crónicas, en valor absoluto, sobre todos los pasos.</td><td class="num">0,500 %<br><span class="muted">FAIL directo &gt; 2,00 %</span></td></tr>
+      <tr><td><span class="sym">M</span><br>Dispersión media</td><td>Desvío estándar de D entre crónicas, promediado sobre los pasos.</td><td class="num">1,00 %</td></tr>
+      <tr><td><span class="sym">Pσ</span><br>Dispersión pico</td><td>El mismo desvío, en el peor paso.</td><td class="num">5,00 %</td></tr>
+      <tr><td><span class="sym">P95</span><br>Cola superior</td><td>Promedio del 5 % de crónicas con mayor D, en el peor paso.</td><td class="num">5,00 %</td></tr>
+      <tr><td><span class="sym">P05</span><br>Cola inferior</td><td>Promedio del 5 % de crónicas con menor D, en magnitud, en el peor paso.</td><td class="num">5,00 %</td></tr>
+      <tr><td><span class="sym">f</span><br>Frecuencia de eventos</td><td>Fracción de pasos con un salto anómalo: un desvío mayor a 3,00 veces el desvío medio o una cola superior mayor a 5,00 %.</td><td class="num">1,00 %</td></tr>
+    </tbody>
+  </table></div>
+  <div class="rules">
+    <div class="rule"><span class="pill PASS">PASS</span><span>Las seis medidas están dentro de su límite: la diferencia es ruido numérico, o no hay diferencia.</span></div>
+    <div class="rule"><span class="pill WARN">WARN</span><span>No hay sesgo ni saltos frecuentes, pero alguna medida de dispersión supera su límite.</span></div>
+    <div class="rule"><span class="pill FAIL">FAIL</span><span>El sesgo supera 2,00 %, o alguna medida supera su límite sin cumplir las condiciones de WARN.</span></div>
+  </div>
+  <p>Este criterio sigue el documento <em>CriterioValidacion.odt</em>, con los límites que usa ValSim. En las pruebas donde la teoría exige igualdad exacta (por ejemplo, 1 hilo contra varios hilos con la misma CF y semilla) se aplica además el criterio <strong>idéntico</strong>: cualquier diferencia, por chica que sea, es FAIL.</p>
+  <p>Además de comparar, cada corrida se verifica sola contra reglas físicas que no dependen de la versión, por ejemplo que la potencia no supere la disponible o que la cota quede entre su mínimo y su máximo. Así se detectan errores que las dos versiones podrían compartir.</p>
+</section>
+
+<section id="cobertura">
+  <h2>Qué situaciones ejercitó la validación</h2>
+  <p>Una comparación solo prueba lo que efectivamente ocurrió en las simulaciones. Si ninguna crónica llega, por ejemplo, a falla, un error en esa lógica no se detectaría. La tabla indica en cuántos actores se dio cada situación al menos una vez.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Situación</th><th>CP_Verano</th></tr></thead>
+    <tbody><tr><td>Generador a potencia máxima</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:73.33333333333333%"></span></span>11 de 15</span></td>    </tr><tr><td>Generador disponible sin despachar</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:33.333333333333336%"></span></span>5 de 15</span></td>    </tr><tr><td>Todas las máquinas de una central en uso</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:62.5%"></span></span>10 de 16</span></td>    </tr><tr><td>Restricción activa (precio sombra ≠ 0)</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:69.23076923076923%"></span></span>9 de 13</span></td>    </tr><tr><td>Vertimiento en embalse</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:100.0%"></span></span>4 de 4</span></td>    </tr><tr><td>Precio spot en el piso</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:100.0%"></span></span>3 de 3</span></td>    </tr><tr><td>Precio spot en el techo</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:33.333333333333336%"></span></span>1 de 3</span></td>    </tr><tr><td>Falla (demanda no abastecida)</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:40.0%"></span></span>4 de 10</span></td>    </tr><tr><td>Penalizaciones extra</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:16.666666666666668%"></span></span>9 de 54</span></td>    </tr><tr><td>Embalse en cota máxima</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td>    </tr><tr><td>Embalse en cota mínima</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:33.333333333333336%"></span></span>1 de 3</span></td>    </tr><tr><td>Embalse por debajo de la franja sin penalización</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:100.0%"></span></span>2 de 2</span></td>    </tr><tr><td>Embalse por encima de la franja sin penalización</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:100.0%"></span></span>1 de 1</span></td>    </tr><tr><td>Congestión de líneas</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td>    </tr><tr><td>Recorte de generación</td>
+<td><span class="cov"><span class="bar"><span class="act" style="width:0.0%"></span></span><span class="none">nunca</span></span></td>    </tr></tbody>
+  </table></div>
+</section>
+
+<details>
+  <summary>Glosario</summary>
+  <dl class="gloss">
+    <dt>Crónica</dt><dd>Una realización posible del futuro: una secuencia sorteada de aportes hidráulicos, viento, demanda y otras variables aleatorias.</dd>
+    <dt>Paso</dt><dd>Un intervalo de tiempo de la simulación.</dd>
+    <dt>Semilla</dt><dd>El número que inicia el generador aleatorio. Con la misma semilla, las dos corridas sortean las mismas crónicas.</dd>
+    <dt>CF</dt><dd>Función de costo futuro: la política de operación que calcula el optimizador. Si las dos corridas usan la misma CF, la comparación aísla al simulador.</dd>
+    <dt>Hilos</dt><dd>Cantidad de procesos que simulan crónicas en paralelo. Con la misma CF y semilla, el resultado no debería depender de cuántos se usen.</dd>
+    <dt>Clásico / icf</dt><dd>Los dos modos de resolución que trae cada paquete (<code>cmdsim</code> y <code>cmdsim_icf</code>).</dd>
+    <dt>Variable publicada</dt><dd>Cada magnitud que un actor expone para las plantillas de resultados (potencia, costo variable, cota…). Se comparan todas, no solo las que la sala tenía configuradas.</dd>
+    <dt>Percentil</dt><dd>El percentil 95 de un paso es el valor que el 95 % de las crónicas no supera en ese paso.</dd>
+  </dl>
+</details>
+
+<details>
+  <summary>Datos de las corridas</summary>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Prueba</th><th>Corrida</th><th>Versión</th><th>Modo</th><th>Hilos</th><th>Estado</th><th class="num">Duración</th></tr></thead>
+    <tbody>      <tr><td class="mono">version_sim</td><td>ref.</td><td class="mono">269.359.8448</td><td>icf</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span> <span class="muted small">reutilizada</span></td>
+      <td class="num">34.0 s</td></tr>
+      <tr><td class="mono">version_sim</td><td>nueva</td><td class="mono">277.363.8612</td><td>icf</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span> <span class="muted small">reutilizada</span></td>
+      <td class="num">27.4 s</td></tr>
+      <tr><td class="mono">version_estres</td><td>ref.</td><td class="mono">269.359.8448</td><td>icf</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span></td>
+      <td class="num">56.0 s</td></tr>
+      <tr><td class="mono">version_estres</td><td>nueva</td><td class="mono">277.363.8612</td><td>icf</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span></td>
+      <td class="num">57.6 s</td></tr>
+      <tr><td class="mono">version_estres</td><td>ref.</td><td class="mono">269.359.8448</td><td>icf</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span></td>
+      <td class="num">64.5 s</td></tr>
+      <tr><td class="mono">version_estres</td><td>nueva</td><td class="mono">277.363.8612</td><td>icf</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span></td>
+      <td class="num">64.4 s</td></tr>
+      <tr><td class="mono">version_estres</td><td>ref.</td><td class="mono">269.359.8448</td><td>icf</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span></td>
+      <td class="num">59.6 s</td></tr>
+      <tr><td class="mono">version_estres</td><td>nueva</td><td class="mono">277.363.8612</td><td>icf</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span></td>
+      <td class="num">65.1 s</td></tr>
+      <tr><td class="mono">version_estres</td><td>ref.</td><td class="mono">269.359.8448</td><td>icf</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span></td>
+      <td class="num">58.4 s</td></tr>
+      <tr><td class="mono">version_estres</td><td>nueva</td><td class="mono">277.363.8612</td><td>icf</td><td>hilos automático</td>
+      <td><span class="pill PASS">OK</span></td>
+      <td class="num">65.2 s</td></tr>
+</tbody>
+  </table></div>
+  <p class="muted small" style="margin-top:0.8rem">«Reutilizada»: el resultado ya estaba calculado con exactamente las mismas entradas (binarios, sala, CF y parámetros, verificados por hash).</p>
+</details>
+
+<details open>
+  <summary>Validaciones anteriores</summary>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Fecha</th><th>Nueva</th><th>Referencia</th><th>Nivel</th><th>Resultado</th></tr></thead>
+    <tbody>      <tr><td class="num" style="text-align:left"><a href="estres_20261103_205652.html">2026-11-03 20:56</a></td>
+      <td class="mono">277.363.8612</td><td class="mono">269.359.8448</td><td>estres</td>
+      <td><span class="pill WARN">WARN</span> <span class="muted small">5 de 5 pruebas</span></td></tr>
+      <tr><td class="num" style="text-align:left"><a href="noche_20261103_204821.html">2026-11-03 20:48</a></td>
+      <td class="mono">277.363.8612</td><td class="mono">269.359.8448</td><td>noche</td>
+      <td><span class="pill FAIL">FAIL</span> <span class="muted small">3 de 4 pruebas</span></td></tr>
+      <tr><td class="num" style="text-align:left"><a href="noche_20261103_203711.html">2026-11-03 20:37</a></td>
+      <td class="mono">276.363.8596</td><td class="mono">269.359.8448</td><td>noche</td>
+      <td><span class="pill FAIL">FAIL</span> <span class="muted small">3 de 4 pruebas</span></td></tr>
+      <tr><td class="num" style="text-align:left"><a href="noche_20261102_150813.html">2026-11-02 15:08</a></td>
+      <td class="mono">277.363.8612</td><td class="mono">276.363.8596</td><td>noche</td>
+      <td><span class="pill FAIL">FAIL</span> <span class="muted small">1 de 4 pruebas</span></td></tr>
+</tbody>
+  </table></div>
+</details>
+
+<footer>Generado por simval el 3 nov 2026, 21:13 a partir de la campaña <span class="mono">estres_20261103_205652</span>.</footer>
+</div>
+</body>
+</html>

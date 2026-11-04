@@ -1,5 +1,15 @@
 [
  {
+  "nombre": "estres_20261103_205652",
+  "nivel": "estres",
+  "fecha": "2026-11-03T20:56:52",
+  "base": "269.359.8448",
+  "test": "277.363.8612",
+  "estado": "WARN",
+  "pruebas": 5,
+  "pruebas_con_problemas": 5
+ },
+ {
   "nombre": "noche_20261103_204821",
   "nivel": "noche",
   "fecha": "2026-11-03T20:48:21",
