@@ -1,5 +1,15 @@
 [
  {
+  "nombre": "diario_20261105_163844",
+  "nivel": "diario",
+  "fecha": "2026-11-05T16:38:44",
+  "base": "277.363.8612",
+  "test": "281.363.8645",
+  "estado": "FAIL",
+  "pruebas": 8,
+  "pruebas_con_problemas": 5
+ },
+ {
   "nombre": "estres_20261103_205652",
   "nivel": "estres",
   "fecha": "2026-11-03T20:56:52",
