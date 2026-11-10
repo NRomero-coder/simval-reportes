@@ -12,93 +12,93 @@ todavía no tenga la suya; no modifica las existentes. La nota vale para todas l
 estado: investigando
 campaña: diario_20261109_133937
 
-
+Posible diferencia entre hilos por sancion del spot con actores con igual cv, Bonete sobre su cota maxima aun sin investigar
 ## hilos_estres · CP_Verano_sequia
-estado: sin investigar
+estado: investigando
 campaña: diario_20261109_133937
 
-
+Posible diferencia entre hilos por sancion del spot con actores con igual cv
 ## hilos_estres · CP_Verano_demanda_alta
-estado: sin investigar
+estado: investigando
 campaña: diario_20261109_133937
 
-
+Posible diferencia entre hilos por sancion del spot con actores con igual cv
 ## hilos_estres · ADME_MP_sequia
-estado: sin investigar
+estado: investigando
 campaña: diario_20261109_133937
 
-
+Posible diferencia entre hilos por sancion del spot con actores con igual cv
 ## hilos_estres · ADME_MP_crecida
-estado: sin investigar
+estado: investigando
 campaña: diario_20261109_133937
 
-
+Posible diferencia entre hilos por sancion del spot con actores con igual cv
 ## hilos_estres · ADME_MP_demanda_alta
-estado: sin investigar
+estado: investigando
 campaña: diario_20261109_133937
 
-
+Posible diferencia entre hilos por sancion del spot con actores con igual cv
 ## hilos_estres · ADME_MP_sin_termicas
-estado: sin investigar
+estado: investigando
 campaña: diario_20261109_133937
 
-
+Posible diferencia entre hilos por sancion del spot con actores con igual cv
 ## version_sim · CP_Verano
-estado: sin investigar
+estado: esperado
 campaña: diario_20261109_133937
 
-
+Los actores de mercado empiezan a publicar su cv a pesar de no tener maquinas disponibles
 ## version_sim · ADME_MP
-estado: sin investigar
+estado: esperado
 campaña: diario_20261109_133937
 
-
+Los actores de mercado empiezan a publicar su cv a pesar de no tener maquinas disponibles
 ## version_opt_sim · CP_Verano
-estado: sin investigar
+estado: esperado
 campaña: diario_20261109_133937
 
-
+Los actores de mercado empiezan a publicar su cv a pesar de no tener maquinas disponibles
 ## version_estres · CP_Verano_sequia
-estado: sin investigar
+estado: esperado
 campaña: diario_20261109_133937
 
-
+Los actores de mercado empiezan a publicar su cv a pesar de no tener maquinas disponibles
 ## version_estres · CP_Verano_crecida
-estado: sin investigar
+estado: esperado
 campaña: diario_20261109_133937
 
-
+Los actores de mercado empiezan a publicar su cv a pesar de no tener maquinas disponibles
 ## version_estres · CP_Verano_demanda_alta
-estado: sin investigar
+estado: esperado
 campaña: diario_20261109_133937
 
-
+Los actores de mercado empiezan a publicar su cv a pesar de no tener maquinas disponibles
 ## version_estres · CP_Verano_sin_termicas
-estado: sin investigar
+estado: esperado
 campaña: diario_20261109_133937
 
-
+Los actores de mercado empiezan a publicar su cv a pesar de no tener maquinas disponibles
 ## version_estres · ADME_MP_sequia
-estado: sin investigar
+estado: esperado
 campaña: diario_20261109_133937
 
-
+Los actores de mercado empiezan a publicar su cv a pesar de no tener maquinas disponibles
 ## version_estres · ADME_MP_crecida
-estado: sin investigar
+estado: esperado
 campaña: diario_20261109_133937
 
-
+Los actores de mercado empiezan a publicar su cv a pesar de no tener maquinas disponibles
 ## version_estres · ADME_MP_demanda_alta
-estado: sin investigar
+estado: esperado
 campaña: diario_20261109_133937
 
-
+Los actores de mercado empiezan a publicar su cv a pesar de no tener maquinas disponibles
 ## version_estres · ADME_MP_sin_termicas
-estado: sin investigar
+estado: esperado
 campaña: diario_20261109_133937
 
 
 ## modos_cp · CP_Verano
-estado: sin investigar
+estado: esperado
 campaña: diario_20261109_133937
 
