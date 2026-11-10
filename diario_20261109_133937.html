@@ -6754,7 +6754,7 @@ footer { font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--li
 </details>
 
 <script>
-// Notas: notas.md del repositorio del sitio, una sección «## <prueba> · <sala>» por prueba.
+// Notas de este reporte: notas/<campaña>.md del repositorio del sitio, una sección «## <prueba> · <sala>» por prueba.
 (function () {
   var REPO = "https://github.com/NRomero-coder/simval-reportes", CAMP = "diario_20261109_133937";
   var ESTADOS = {"sin investigar": "WARN", "investigando": "WARN", "causa encontrada": "DIF",
@@ -6776,7 +6776,8 @@ footer { font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--li
     Object.keys(notas).forEach(function (k) { notas[k].texto = notas[k].lineas.join("\n").trim(); });
     return notas;
   }
-  var notas = fetch("notas.md?t=" + Date.now(), {cache: "no-store"})
+  var ARCHIVO = "notas/" + CAMP + ".md";
+  var notas = fetch(ARCHIVO + "?t=" + Date.now(), {cache: "no-store"})
     .then(function (r) { return r.ok ? r.text() : (r.status === 404 ? "" : Promise.reject(r.status)); })
     .then(parsear);
   function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
@@ -6793,8 +6794,8 @@ footer { font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--li
   function enlace() {
     if (!REPO) return null;
     var a = el("a", "nota-editar", "editar notas");
-    a.href = REPO + "/edit/main/notas.md"; a.target = "_blank"; a.rel = "noopener";
-    a.title = "Todas las notas están en un solo archivo: se editan y se guardan en un único commit";
+    a.href = REPO + "/edit/main/" + ARCHIVO; a.target = "_blank"; a.rel = "noopener";
+    a.title = "Las notas de este reporte están en un solo archivo: se editan y se guardan en un único commit";
     return a;
   }
   document.querySelectorAll("[data-nota]").forEach(function (box) {
@@ -6806,25 +6807,24 @@ footer { font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--li
       var cab = el("div", "nota-cab");
       cab.appendChild(el("span", "eyebrow", "Motivo"));
       cab.appendChild(pill(n));
-      if (n && n.texto && n.campania && n.campania !== CAMP) cab.appendChild(el("span", "muted small", "escrita para " + n.campania));
       var a = enlace();
       if (a) cab.appendChild(a);
       box.appendChild(cab);
       if (n && n.texto) { var p = el("p", "nota-texto"); conEnlaces(p, n.texto); box.appendChild(p); }
-      else if (REPO) box.appendChild(el("p", "nota-texto muted small", "Sección «## " + titulo + "» de notas.md."));
+      else if (REPO) box.appendChild(el("p", "nota-texto muted small", "Sección «## " + titulo + "» de " + ARCHIVO + "."));
     }).catch(function () {
       if (box.classList.contains("nota-estado")) return;
       box.textContent = "";
       var cab = el("div", "nota-cab");
       cab.appendChild(el("span", "eyebrow", "Motivo"));
-      cab.appendChild(el("span", "muted small", "no se pudo leer notas.md"));
+      cab.appendChild(el("span", "muted small", "no se pudieron leer las notas"));
       box.appendChild(cab);
     });
   });
 })();
 </script>
 
-<footer>Generado por simval el 10 nov 2026, 11:58 a partir de la campaña <span class="mono">diario_20261109_133937</span>.</footer>
+<footer>Generado por simval el 10 nov 2026, 12:18 a partir de la campaña <span class="mono">diario_20261109_133937</span>.</footer>
 </div>
 </body>
 </html>
