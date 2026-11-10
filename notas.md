@@ -9,7 +9,7 @@ todavía no tenga la suya; no modifica las existentes. La nota vale para todas l
 -->
 
 ## hilos_sim · ADME_MP
-estado: sin investigar
+estado: investigando
 campaña: diario_20261109_133937
 
 
