@@ -1,5 +1,18 @@
 [
  {
+  "nombre": "diario_20261116_181030",
+  "nivel": "diario",
+  "fecha": "2026-11-16T18:10:30",
+  "base": "282.363.8682",
+  "test": "283.364.8702",
+  "estado": "PASS",
+  "pruebas": 24,
+  "pruebas_con_problemas": 0,
+  "pruebas_auto": 11,
+  "pruebas_dif": 12,
+  "pruebas_que_cambian": 0
+ },
+ {
   "nombre": "diario_20261112_131340",
   "nivel": "diario",
   "fecha": "2026-11-12T13:13:40",
